@@ -1,6 +1,7 @@
 # Ichigo-Rewards-API
 
 ### Run 'npm start' to start the server. The server will run on port 5000.
+### Run 'npm run test' to execute the unit tests (jest / mocha) and routes tests (supertest).
 
 ## Endpoints:
 
