@@ -8,10 +8,7 @@ const PORT = 5000;
 
 app.use(bodyParser.json());
 app.use("/users", usersRoutes);
-app.get("/", (_, res) => {
-  res.send("Root");
-});
 
 app.listen(PORT, () => {
-  console.log(`Running on port: ${PORT}`);
+  console.log(`App is running on port: ${PORT}`);
 });

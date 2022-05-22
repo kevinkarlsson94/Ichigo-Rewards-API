@@ -17,14 +17,21 @@ export const getRewards = (req, res) => {
 
   // User exist in DB - edit current users data
   if (userExistInDb(users, userId)) {
-    let newData;
-    let updatedUsers = users.map((user) =>
-      user.id === userId
-        ? { ...user, data: filterDuplicates([...user.data, ...rewardsData]) }
-        : user
-    );
+    const updatedUsers = users.map((user) => {
+      // map through users - when we have a match we will spread the old user data with the new generated fields
+      if (user.id === userId) {
+        const newUserData = filterDuplicates([...user.data, ...rewardsData]);
+        res.send({ data: newUserData });
+        return {
+          ...user,
+          data: newUserData,
+        };
+      }
+      return user;
+    });
+
+    // Save all users with the updated values for the specified user
     saveUser(updatedUsers);
-    res.send({ data: newData });
   }
 
   // User does not exist in DB - create new userId with Data
@@ -33,11 +40,9 @@ export const getRewards = (req, res) => {
       id: userId,
       data: rewardsData,
     };
-    // users = [...users, newUserData];
     saveUser([...users, newUserData]);
     res.send({ data: newUserData.data });
   }
-  console.log("users", users);
 };
 
 export const patchRewards = (req, res) => {
